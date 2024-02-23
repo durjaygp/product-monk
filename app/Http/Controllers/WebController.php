@@ -18,7 +18,15 @@ use Illuminate\Http\Response; // Import the Response class
 class WebController extends Controller
 {
     public function index(){
-        return view('frontEnd.home.index');
+        $blogs = Blog::latest()->limit(3)->get();
+        return view('frontEnd.home.index',compact('blogs'));
+    }
+
+
+    public function blogDetails($slug){
+        $blog = Blog::where('slug',$slug)->firstOrFail();
+        $comments = Comment::where('blog_id', $blog->id)->get();
+        return view('frontEnd.blog.details',compact('blog','comments'));
     }
 
     public function category($slug){
@@ -27,11 +35,6 @@ class WebController extends Controller
         return view('frontEnd.pages.category',compact('category'));
     }
 
-    public function blogDetails($slug){
-        $blog = Blog::where('slug',$slug)->firstOrFail();
-        $comments = Comment::where('blog_id', $blog->id)->get();
-        return view('frontEnd.pages.details',compact('blog','comments'));
-    }
 
     public function about(){
         $about = About::find(1);

@@ -40,11 +40,12 @@
                 <div class="card-body">
                     <form method="post" action="{{route('blog.save')}}" enctype="multipart/form-data">
                         @csrf
+
                         <div class="row">
                             <div class="col-lg-8">
                                 <div class="mb-4">
-                                    <label for="exampleInputPassword1" class="form-label fw-semibold">Blog Name</label>
-                                    <input type="text" name="name" class="form-control" id="exampleInputtext" placeholder="Blog Name">
+                                    <label for="blog_title" class="form-label fw-semibold">Blog Title</label>
+                                    <input type="text" name="name" class="form-control" id="blog_title" placeholder="Blog Title">
                                 </div>
                             </div>
                             <div class="col-lg-4">
@@ -53,10 +54,10 @@
                                     @php
                                         $categories = \App\Models\Category::latest()->get();
                                     @endphp
-                                    <select name="category_id" id="" class="form-control">
+                                    <select name="category_id[]" id="" class="form-control" multiple >
                                         <option>Select Category</option>
                                         @foreach($categories as $row)
-                                            <option value="{{$row->id}}"  @if( request()->input('category_id') == $row->id) selected @endif >{{$row->name}}</option>
+                                            <option value="{{$row->id}}" >{{$row->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -86,18 +87,6 @@
                                     <select name="status" id="" class="form-select">
                                         <option value="1">Publish</option>
                                         <option value="2">Draft/Unpublished</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-4">
-                                    <label for="exampleInputPassword1" class="form-label fw-semibold">Featured Section</label>
-                                    <select name="position" id="" class="form-select" required>
-                                        <option>Select</option>
-                                        <option value="1">Featured</option>
-                                        <option value="3">Spotlights</option>
-                                        <option value="4">Travel</option>
-                                        <option value="2">Basic Normal Post</option>
                                     </select>
                                 </div>
                             </div>

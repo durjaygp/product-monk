@@ -52,14 +52,14 @@
                             <span class="hide-menu">Category</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{route('recipe.list')}}" aria-expanded="false">
-                  <span>
-                    <i class="ti ti-cookie"></i>
-                  </span>
-                            <span class="hide-menu">Recipe</span>
-                        </a>
-                    </li>
+{{--                    <li class="sidebar-item">--}}
+{{--                        <a class="sidebar-link" href="{{route('recipe.list')}}" aria-expanded="false">--}}
+{{--                  <span>--}}
+{{--                    <i class="ti ti-cookie"></i>--}}
+{{--                  </span>--}}
+{{--                            <span class="hide-menu">Recipe</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                     <!-- =================== -->
 
                     <li class="sidebar-item">
@@ -117,14 +117,14 @@
                             <span class="hide-menu">Subscriber</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{route('page.homeAbout')}}">
-                      <span>
-                        <i class="ti ti-user-bolt"></i>
-                      </span>
-                            <span class="hide-menu">About Section</span>
-                        </a>
-                    </li>
+{{--                    <li class="sidebar-item">--}}
+{{--                        <a class="sidebar-link" href="{{route('page.homeAbout')}}">--}}
+{{--                      <span>--}}
+{{--                        <i class="ti ti-user-bolt"></i>--}}
+{{--                      </span>--}}
+{{--                            <span class="hide-menu">About Section</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{route('page.homePrivacy')}}">
                       <span>

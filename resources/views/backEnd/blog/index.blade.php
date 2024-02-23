@@ -52,7 +52,6 @@
                                         <th>Name</th>
                                         <th>Description</th>
                                         <th>Status</th>
-                                        <th>Is Position</th>
                                         <th>Action</th>
                                     </tr>
                                     <!-- end row -->
@@ -63,7 +62,11 @@
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td><img src="{{asset($row->image)}}" alt="" class="img-fluid"></td>
-                                        <td>{{$row->category->name}}</td>
+                                        <td>
+
+                                                <span class="badge bg-info">{{ $row->categories->name ?? "" }}</span>
+
+                                        </td>
                                         <td>{{$row->name}}</td>
                                         <td>{{\Illuminate\Support\Str::limit($row->description,20)}}</td>
                                         <td>
@@ -71,13 +74,6 @@
                                                 <span class="badge bg-secondary">Active</span>
                                             @elseif($row->status == 2)
                                                 <span class="badge bg-danger">Inactive</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if($row->position == 1)
-                                                <span class="badge bg-secondary">Featured</span>
-                                            @elseif($row->position == 2)
-                                                <span class="badge bg-dark-subtle">Basic Post</span>
                                             @endif
                                         </td>
                                         <td>

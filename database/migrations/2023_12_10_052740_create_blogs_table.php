@@ -20,8 +20,10 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->nullable();
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->nullable();
+            $table->json('category_id')->nullable();
+
+            // $table->unsignedBigInteger('category_id');
+           // $table->foreign('category_id')->references('id')->on('categories')->nullable();
             //recipe table
             $table->text('ingredients')->nullable();
             $table->longText('ingredients_content')->nullable();

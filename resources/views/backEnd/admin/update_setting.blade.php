@@ -92,7 +92,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <label for="exampleInputPassword1" class="form-label fw-semibold">Website Description <small>(It also appear in Footer About Us)</small></label>
+                                <label for="exampleInputPassword1" class="form-label fw-semibold">Website Description <small>(It also appear in Homepage)</small></label>
                                 <textarea name="description" id="" cols="10" rows="5" class="form-control" placeholder="Write a short Description">{{$row->description}}</textarea>
                             </div>
                             <div class="col-lg-12">

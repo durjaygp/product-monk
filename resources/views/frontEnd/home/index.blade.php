@@ -1,6 +1,6 @@
 @extends('frontEnd.master')
 @section('title')
-    Home Page
+{{$website->name}}
 @endsection
 @section('content')
     <div class="flex min-h-screen flex-col overflow-x-hidden pb-8">
@@ -19,22 +19,23 @@
                             </figure>
                         </div>
                         <div class="space-y-1">
-                            <h1 class="w-full text-center text-4xl sm:text-5xl font-bold  text-gray-900">
-                                Product Monk</h1>
+                            <h1 class="w-full text-center text-4xl sm:text-5xl font-bold text-gray-900">
+                                {{$website->name}}</h1>
                             <p class="w-full text-center text-xl sm:text-2xl font-regular  text-gray-900">
-                                Unleash growth! Subscribe to 3x/week newsletter
-                                packed with growth and product case studies. Free! 🚀</p>
+                                {{$website->description}}
+                            </p>
                         </div>
                     </div>
                     <div class="mx-auto mt-4 flex w-full max-w-xl justify-center">
                         <div class="flex w-full flex-col items-center space-y-4">
-                            <form class="group w-full rounded-wt bg-transparent">
+                            <form class="group w-full rounded-wt bg-transparent" method="post" action="{{route('newsletters.store')}}">
+                                @csrf
                                 <div class="flex flex-col">
                                     <div class="w-full sm:mx-auto sm:flex">
                                         <div class="w-full">
                                             <input type="email" name="email" required=""
                                                    class="border-gray-900 focus:border-gray-900 sm:rounded-r-none block w-full rounded border-2 bg-white px-5 py-3 text-base font-light text-black placeholder-gray-400 shadow-none placeholder:text-sm focus:outline-none sm:shadow-none border-gray-900"
-                                                   placeholder="Enter your email" value="">
+                                                   placeholder="Enter your email">
                                         </div>
                                         <div class="mt-2 sm:mt-0">
                                             <input type="submit"
@@ -47,6 +48,7 @@
                         </div>
                     </div>
                 </div>
+{{--                Social Media Icon--}}
                 <div class="flex items-end justify-between">
                     <div>
                         <p
@@ -94,6 +96,7 @@
                                 </span>
                     </div>
                 </div>
+
             </div>
         </section>
         <!-- Heros Section End -->
@@ -105,202 +108,68 @@
                     <div class="w-full space-y-4 py-8">
                         <div class="flex w-full items-center justify-between">
                             <h4 class="text-lg sm:text-xl font-bold " style="color: rgb(0, 39, 103);">Featured
-                                Posts</h4>
+                                Blogs</h4>
                         </div>
                         <div class="grid w-full grid-cols-3 gap-6">
-                            <div class="col-span-3 w-full md:col-span-1">
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img width="800" height="421"
-                                                         src="{{asset('homePage')}}/assets/images/image-1.png"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
+                            @foreach($blogs as $row)
+                                <div class="col-span-3 w-full md:col-span-1">
+                                    <div
+                                        class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
+                                        <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
+                                           href="{{route('home.blog',$row->slug)}}">
+                                            <div class="w-full">
+                                                <div class="w-full overflow-hidden rounded-lg">
+                                                    <figure
+                                                        class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
+                                                        <img width="800" height="421"
+                                                             src="{{asset($row->image)}}"
+                                                             class="absolute inset-0 h-full w-full object-cover" alt="{{$row->name}}">
+                                                    </figure>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Grammarly: How AI
-                                                            Attracts 3+ Crore Users Daily</h2>
+                                            <div class="flex w-full flex-col justify-between space-y-6 p-4">
+                                                <div>
+                                                    <div class="flex justify-between space-x-4">
+                                                        <div class="space-y-1">
+                                                            <h2
+                                                                class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
+                                                                {{ $row->name }}</h2>
+                                                            <p
+                                                                class="break-words line-clamp-2 text-sm font-regular text-gray-900">
+                                                                {{ $row->description }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pt-6">
                                                         <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Grammarly leveraged
-                                                            AI to drive success - here's how!</p>
+                                                            class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
+                                                                <span class="text-xs font-semibold"> {{$row->user->name}} </span><time datetime="2024-01-31T04:29:49.018Z"
+                                                                                  class="text-xs">{{ $row->created_at->diffForHumans() }}</time>
+                                                        </p>
                                                     </div>
                                                 </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S</span><time datetime="2024-01-31T04:29:49.018Z"
-                                                                                  class="text-xs">16 days ago</time>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
+                                                <div class="space-y-2">
+                                                    <div class="flex flex-wrap gap-2">
+                                                          @php
+                                                              $categorys = json_decode($row->category_id,true);
+                                                          @endphp
+                                                        @foreach($categorys as $category)
+                                                            <div
+                                                                class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
+                                                                @php
+                                                                    $cat = \App\Models\Category::where('id',$category)->first();
+                                                                @endphp
                                                                 <span
                                                                     class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">Product Strategy</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">Product Technology</span></span>
+                                                                        class="text-xs">{{ $cat->name }}</span></span>
+                                                            </div>
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-span-3 w-full md:col-span-1">
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img width="800" height="421"
-                                                         src="{{asset('homePage')}}/assets/images/image-1.png"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Grammarly: How AI
-                                                            Attracts 3+ Crore Users Daily</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Grammarly leveraged
-                                                            AI to drive success - here's how!</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S</span><time datetime="2024-01-31T04:29:49.018Z"
-                                                                                  class="text-xs">16 days ago</time>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">Product Strategy</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">Product Technology</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-span-3 w-full md:col-span-1">
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img width="800" height="421"
-                                                         src="{{asset('homePage')}}/assets/images/image-1.png"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Grammarly: How AI
-                                                            Attracts 3+ Crore Users Daily</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Grammarly leveraged
-                                                            AI to drive success - here's how!</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S</span><time datetime="2024-01-31T04:29:49.018Z"
-                                                                                  class="text-xs">16 days ago</time>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">Product Strategy</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">Product Technology</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+                            @endforeach
 
                         </div>
                     </div>

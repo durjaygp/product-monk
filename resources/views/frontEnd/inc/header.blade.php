@@ -2,17 +2,16 @@
     <nav class="flex items-center justify-between bg-green-200 py-2 px-4">
         <div class="mx-auto flex w-full max-w-6xl justify-between">
             <div class="flex items-center space-x-2"><a class="transition:all rounded-md py-1 px-2 hover:bg-black/5"
-                                                        href="#">
+                                                        href="{{route('home')}}">
                     <div class="flex items-center space-x-2">
                         <div class="h-8 w-8 overflow-hidden rounded-md">
                             <figure class="aspect-square relative h-full overflow-hidden w-full"><img
                                     class="absolute inset-0 h-full w-full object-cover" width="100" height="100"
-                                    src="https://media.beehiiv.com/cdn-cgi/image/fit=scale-down,format=auto,onerror=redirect,quality=80/uploads/publication/logo/51dbdc62-9076-48d9-a446-8938504125ba/thumb_PM_Lo.png"
-                                    alt="Product Monk logo"></figure>
+                                    src="{{asset($website->website_logo)}}"
+                                    alt="{{$website->name}}"></figure>
                         </div>
                         <span
-                            class="sm:text-md text-gray-900 hidden text-sm sm:block  text-gray-800 text-md font-regular">Product
-                                Monk</span>
+                            class="sm:text-md text-gray-900 hidden text-sm sm:block  text-gray-800 text-md font-regular">{{$website->name}}</span>
                     </div>
                 </a>
                 <div class="z-20 block">
@@ -52,7 +51,7 @@
                                         class="whitespace-nowrap text-xs sm:block  text-gray-800 text-md font-regular">Newsletters</span>
                                 </div>
                             </a>
-                            <button class="whitespace-nowrap text-xs text-gray-800" role="menuitem" tabindex="-1">
+                            <a href="{{route('login')}}" class="whitespace-nowrap text-xs text-gray-800" role="menuitem" tabindex="-1">
                                 <div
                                     class="group flex items-center space-x-2 rounded-wt py-2 px-3 hover:bg-black/5">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -65,7 +64,7 @@
                                     <div class="whitespace-nowrap text-xs text-gray-800 sm:block">Login
                                     </div>
                                 </div>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

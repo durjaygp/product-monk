@@ -42,7 +42,7 @@
                         <div class="col-12">
                             <div class="table-responsive">
                                 <table id="zero_config"
-                                       class="table border table-striped table-bordered text-nowrap">
+                                       class="table border table-striped table-bordered table-responsive">
                                     <thead>
                                     <!-- start row -->
                                     <tr>

@@ -76,9 +76,6 @@
                                                     <a href="{{route('blog.create', ['category_id' => $row->id])}}" class="btn btn-sm btn-warning">
                                                         <i class="ti ti-brand-blogger fs-5"></i> Blog
                                                     </a>
-                                                    <a href="{{route('recipe.create', ['category_id' => $row->id])}}" class="btn btn-sm btn-success">
-                                                        <i class="ti ti-pizza fs-5"></i> Recipe
-                                                    </a>
                                                     <a href="{{ route('category.delete', $row->id) }}"
                                                        onclick="event.preventDefault();
                                                            if (confirm('Are you sure you want to delete?'))

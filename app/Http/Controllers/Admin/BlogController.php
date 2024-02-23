@@ -17,6 +17,7 @@ class BlogController extends Controller
 {
     public function index(){
         $blogs = Blog::latest()->whereType('blog')->get();
+
         return view('backEnd.blog.index',compact('blogs'));
     }
 
@@ -30,7 +31,7 @@ class BlogController extends Controller
     }
 
     public function save(Request $request){
-
+        //return $request;
         $rules = [
             'name' => [
                 'required',
@@ -59,12 +60,15 @@ class BlogController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+       $categoryIdsJson = json_encode($request->category_id);
+
         $recipe = new Blog();
         $recipe->name = $request->name;
         $recipe->slug = Str::slug($request->name, '-');
         $recipe->user_id = auth()->user()->id;
         $recipe->description = $request->description;
-        $recipe->category_id = $request->category_id;
+        $recipe->category_id = $categoryIdsJson;
+        //$recipe->category_id = $request->category_id;
         $recipe->main_content = $request->main_content;
         $recipe->status = $request->status;
         $recipe->position = $request->position;
@@ -76,6 +80,7 @@ class BlogController extends Controller
             $recipe->image = $this->saveImage($request);
         }
         $recipe->save();
+
         return redirect()->route('blog.list')->with('success','Blog Created Successfully');
     }
 
@@ -128,13 +133,16 @@ class BlogController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+
         // If validation passes, update the student
         $blog = Blog::find($request->id);
         $blog->name = $request->name;
         $blog->slug = Str::slug($request->name, '-');
         $blog->user_id = auth()->user()->id;
         $blog->description = $request->description;
-        $blog->category_id = $request->category_id;
+        //$blog->category_id = $request->category_id; // Store category IDs as JSON
+       // $blog->category_id = json_encode($request->category_id); // Store category IDs as JSON
+
         $blog->main_content = $request->main_content;
         $blog->status = $request->status;
         $blog->position = $request->position;

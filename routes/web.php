@@ -29,7 +29,7 @@ use App\Http\Controllers\NewsletterController;
 
 // =============== Home Routes ===============
 Route::get('/', [WebController::class,'index'])->name('home');
-Route::get('/post/{slug}', [WebController::class,'blogDetails'])->name('home.blog');
+Route::get('/blog/{slug}', [WebController::class,'blogDetails'])->name('home.blog');
 Route::get('/category/{slug}', [WebController::class,'category'])->name('home.category');
 Route::get('/about-me', [WebController::class,'about'])->name('home.about');
 Route::get('/privacy-policy', [WebController::class,'privacyPolicy'])->name('privacy-policy');
