@@ -63,9 +63,23 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td><img src="{{asset($row->image)}}" alt="" class="img-fluid"></td>
                                         <td>
+                                            @php
+                                                $categoryIds = json_decode($row->category_id, true);
+                                            @endphp
 
-                                                <span class="badge bg-info">{{ $row->categories->name ?? "" }}</span>
+                                            @if(is_array($categoryIds))
+                                                @foreach($categoryIds as $categoryId)
+                                                    @php
+                                                        $category = \App\Models\Category::find($categoryId);
+                                                    @endphp
 
+                                                    @if($category)
+                                                        <span class="badge bg-info">{{ $category->name }}</span>
+
+                                                    @endif
+                                                @endforeach
+                                            @else
+                                            @endif
                                         </td>
                                         <td>{{$row->name}}</td>
                                         <td>{{\Illuminate\Support\Str::limit($row->description,20)}}</td>

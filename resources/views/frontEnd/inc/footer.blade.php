@@ -9,22 +9,21 @@
                             <div class="h-10 w-10 overflow-hidden rounded">
                                 <figure class="aspect-square relative h-full overflow-hidden w-full"><img
                                         width="200" height="200"
-                                        src="https://media.beehiiv.com/cdn-cgi/image/fit=scale-down,format=auto,onerror=redirect,quality=80/uploads/publication/logo/51dbdc62-9076-48d9-a446-8938504125ba/thumb_PM_Lo.png"
-                                        alt="Product Monk" class="absolute inset-0 h-full w-full object-cover">
+                                        src="{{asset($website->website_logo)}}"
+                                        alt="{{$website->name}}" class="absolute inset-0 h-full w-full object-cover">
                                 </figure>
                             </div>
                         </div>
                         <div>
-                            <h4 class=" text-gray-900 text-md sm:text-lg font-bold">Product
-                                Monk</h4>
+                            <h4 class=" text-gray-900 text-md sm:text-lg font-bold">{{$website->name}}</h4>
                             <p class="text-md tracking-wide opacity-75  text-gray-900 text-sm font-medium">
-                                Unleash growth! Subscribe to 3x/week newsletter packed with growth and product case
-                                studies. Free! 🚀</p>
+                                {{$website->description}}</p>
                         </div>
                     </div>
                     <div class="w-full pt-4">
                         <div class="flex w-full flex-col items-center space-y-4">
-                            <form class="group w-full rounded-wt bg-transparent">
+                            <form class="group w-full rounded-wt bg-transparent" method="post" action="{{route('newsletters.store')}}">
+                                @csrf
                                 <div class="flex flex-col">
                                     <div class="w-full sm:mx-auto sm:flex">
                                         <div class="w-full"><input type="email" name="email" required=""
@@ -101,12 +100,23 @@
                 <div>
                     <div class="flex w-full">
                         <div class="flex w-full justify-start space-x-6">
-                            <div class="flex flex-col"><span
-                                    class="text-md font-semibold sm:block  text-gray-800 text-md font-regular">Home</span><a
-                                    href="#"><span
-                                        class="text-sm opacity-75 hover:text-gray-900  text-gray-800 text-md font-medium">Posts</span></a><a
-                                    href="#"><span
-                                        class="text-sm opacity-75 hover:text-gray-900  text-gray-800 text-md font-medium">Newsletters</span></a>
+                            <div class="flex flex-col">
+                                <span class="text-md font-semibold sm:block  text-gray-800 text-md font-regular">Pages</span>
+                                <a href="{{route('home')}}">
+                                    <span class="text-sm opacity-75 hover:text-gray-900  text-gray-800 text-md font-medium">Home</span>
+                                </a>
+                                <a href="{{route('privacy-policy')}}">
+                                    <span class="text-sm opacity-75 hover:text-gray-900  text-gray-800 text-md font-medium">Privacy Policy </span>
+                                </a>
+                                @php
+                                    $pages = \App\Models\NewPages::latest()->whereStatus(1)->get()
+                                @endphp
+                                @foreach($pages as $row)
+                                    <a href="{{route('home.page',$row->slug)}}">
+                                        <span class="text-sm opacity-75 hover:text-gray-900  text-gray-800 text-md font-medium">{{$row->title}}</span>
+                                    </a>
+                                @endforeach
+
                             </div>
                             <div class="flex space-x-6"></div>
                         </div>
@@ -119,22 +129,17 @@
             <div>
                 <div class="flex flex-col items-center space-x-2 md:flex-row">
                     <div class="mb-3 flex items-center space-x-0 md:mb-0 md:space-x-2"><span
-                            class="extra-light text-xs text-gray-800 text-md font-regular">© 2024 Product
-                                Monk.</span>
+                            class="extra-light text-xs text-gray-800 text-md font-regular">{{$website->footer}}</span>
                         <div class="hidden h-4 border-r border-gray-400 md:block"></div>
                     </div>
                     <div class="flex items-center space-x-2">
                             <span
                                 class="extra-light whitespace-nowrap text-xs underline underline-offset-1 text-gray-800 text-md font-regular">
-                                <a href="#">Privacy
+                                <a href="{{route('privacy-policy')}}">Privacy
                                     Policy</a>
                             </span>
                         <div class="h-4 border-r border-gray-400"></div>
-                        <span
-                            class="extra-light whitespace-nowrap text-xs underline underline-offset-1 text-gray-800 text-md font-regular">
-                                <a href="#">Terms
-                                    of Use</a>
-                            </span>
+
                     </div>
                 </div>
             </div>

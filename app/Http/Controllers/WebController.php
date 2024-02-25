@@ -18,8 +18,9 @@ use Illuminate\Http\Response; // Import the Response class
 class WebController extends Controller
 {
     public function index(){
-        $blogs = Blog::latest()->limit(3)->get();
-        return view('frontEnd.home.index',compact('blogs'));
+        $blogs = Blog::latest()->whereStatus(1)->limit(3)->get();
+        $nextBlog = Blog::latest()->whereStatus(1)->get();
+        return view('frontEnd.home.index',compact('blogs','nextBlog'));
     }
 
 
@@ -29,21 +30,40 @@ class WebController extends Controller
         return view('frontEnd.blog.details',compact('blog','comments'));
     }
 
-    public function category($slug){
-        $category = Category::where('slug',$slug)->firstOrFail();
-       // return $category;
-        return view('frontEnd.pages.category',compact('category'));
+    public function category($slug) {
+        $ct = Category::where('slug', $slug)->firstOrFail();
+
+        // Fetch blog posts for the given category
+        $blogs = Blog::where('category_id', 'LIKE', '%"'.$ct->id.'"%')->whereStatus(1)->get();
+
+        // Decode the category IDs for each blog post
+        $nextBlog = $blogs->map(function($blog) {
+            $categoryIds = json_decode($blog->category_id, true);
+            $categories = [];
+
+            // Fetch category details for each category ID
+            foreach ($categoryIds as $categoryId) {
+                $category = Category::find($categoryId);
+                if ($category) {
+                    $categories[] = $category;
+                }
+            }
+
+            // Add categories to the blog post object
+            $blog->categories = $categories;
+            return $blog;
+        });
+
+        // Pass the category and related blog posts to the view
+        return view('frontEnd.blog.category', compact('ct', 'nextBlog'));
     }
 
-
-    public function about(){
-        $about = About::find(1);
-        return view('frontEnd.pages.about',compact('about'));
-    }
     public function privacyPolicy(){
         $privacy = Page::find(1);
         return view('frontEnd.pages.privacy',compact('privacy'));
     }
+
+
     public function searchRecipe(Request $request){
         $search = '%' . $request->input('search') . '%';
 
@@ -55,7 +75,7 @@ class WebController extends Controller
             ->orWhere('ingredients', 'like', $search)
             ->get();
 
-        return view('frontEnd.pages.search', compact('blog', 'cleanedSearch'));
+        return view('frontEnd.blog.search', compact('blog', 'cleanedSearch'));
     }
 
     public function siteMap(): Response // Update the type hint to Illuminate\Http\Response
@@ -68,38 +88,6 @@ class WebController extends Controller
     }
 
 
-//
-//    public function contact(){
-//        return view('frontend.pages.contact_us');
-//    }
-//    public function service(){
-//        return view('frontend.pages.services');
-//    }
-//
-//    public function resources(){
-//        return view('frontend.pages.resources');
-//    }
-//
 
-//
-//    public function resourcesDetails($slug){
-//        $blog = Blog::where('slug',$slug)->first();
-//        $comments = Comment::where('blog_id', $blog->id)->get();
-//        return view('frontend.pages.details',compact('blog','comments'));
-//    }
-//
-//
-//
-//    public function game(){
-//        return view('homePage.game.game');
-//    }
-//    public function favoriteGame(){
-//
-//        return view('homePage.game.mygame');
-//    }
-//    public function gameDetails($slug){
-//        $game = Game::where('slug',$slug)->first();
-//        return view('homePage.game.details',compact('game'));
-//    }
 
 }

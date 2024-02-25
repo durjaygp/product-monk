@@ -9,77 +9,77 @@
             <div>
                 <div class="relative mx-auto w-full max-w-6xl px-0 sm:px-4">
                     <!-- Left Side toolbox -->
-                    <div
-                        class="fixed bottom-0 left-0 top-auto z-40 w-full rounded bg-white shadow-xl transition-all md:bottom-auto md:top-20 md:z-0 md:w-fit md:border-none md:shadow-none">
-                        <div
-                            class="absolute left-0 top-0 w-full border border-t border-wt-text-on-background bg-white opacity-10 md:hidden">
-                        </div>
-                        <div class="mx-auto w-full max-w-6xl px-0 md:px-4">
-                            <div class="flex flex-col gap-8 md:h-40">
-                                <div class="flex flex-row items-center md:flex-col">
-                                    <div class="ml-4 pb-0 pt-0 md:-ml-4 md:pb-4 md:pt-2">
-                                        <div
-                                            class="flex h-7 w-7 items-center justify-center rounded-wt transition-all hover:bg-black/5">
-                                            <button class="cursor-pointer">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="2" stroke="currentColor" aria-hidden="true"
-                                                     class="h-6 w-6 stroke-1 text-gray-900 opacity-50">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M11 17l-5-5m0 0l5-5m-5 5h12"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="-ml-2 mt-1 flex w-full flex-row items-center justify-center space-x-4 space-y-0 py-2 md:-ml-0 md:mt-0 md:flex-col md:items-start md:space-x-0 md:space-y-1.5 md:py-0">
-                                        <button class="group pb-1.5" type="button">
-                                            <div
-                                                class="text-gray-900 opacity-50 group-hover:opacity-100 flex items-center space-x-1">
-                                                <div class="rounded-full p-1.5 hover:bg-[#f3f4f6]">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="mt-0.5 h-7 w-7 outline-none h-4 w-4 stroke-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                                <span
-                                                    class="hidden text-transparent sm:block pt-0.5 text-sm font-medium group-hover:opacity-100">0</span>
-                                            </div>
-                                        </button><button
-                                            class="group flex items-center space-x-1 pb-1 pt-1 outline-none md:pt-0">
-                                            <div class="rounded-full p-1.5 hover:bg-[#f3f4f6]">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="2" stroke="currentColor"
-                                                     class="h-7 w-7 stroke-1 text-gray-900 opacity-50 group-hover:opacity-100">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155">
-                                                    </path>
-                                                </svg>
-                                            </div>
-                                            <span
-                                                class="hidden text-[#6B7280] md:block pt-0.5 text-sm font-medium group-hover:opacity-100">0</span>
-                                        </button>
-                                        <div class="relative z-20 inline-block text-left md:z-0">
-                                            <button class="outline-none" id="headlessui-menu-button-2" type="button"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                <div class="h-fit w-fit rounded-full p-1.5 hover:bg-[#f3f4f6]">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="md:mt-0 mt-1.5 text-gray-900 opacity-50 hover:opacity-100 -ml-1 md:ml-0 h-7 w-7 stroke-1 text-gray-400">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div--}}
+{{--                        class="fixed bottom-0 left-0 top-auto z-40 w-full rounded bg-white shadow-xl transition-all md:bottom-auto md:top-20 md:z-0 md:w-fit md:border-none md:shadow-none">--}}
+{{--                        <div--}}
+{{--                            class="absolute left-0 top-0 w-full border border-t border-wt-text-on-background bg-white opacity-10 md:hidden">--}}
+{{--                        </div>--}}
+{{--                        <div class="mx-auto w-full max-w-6xl px-0 md:px-4">--}}
+{{--                            <div class="flex flex-col gap-8 md:h-40">--}}
+{{--                                <div class="flex flex-row items-center md:flex-col">--}}
+{{--                                    <div class="ml-4 pb-0 pt-0 md:-ml-4 md:pb-4 md:pt-2">--}}
+{{--                                        <div--}}
+{{--                                            class="flex h-7 w-7 items-center justify-center rounded-wt transition-all hover:bg-black/5">--}}
+{{--                                            <button class="cursor-pointer">--}}
+{{--                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"--}}
+{{--                                                     stroke-width="2" stroke="currentColor" aria-hidden="true"--}}
+{{--                                                     class="h-6 w-6 stroke-1 text-gray-900 opacity-50">--}}
+{{--                                                    <path stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                                          d="M11 17l-5-5m0 0l5-5m-5 5h12"></path>--}}
+{{--                                                </svg>--}}
+{{--                                            </button>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div--}}
+{{--                                        class="-ml-2 mt-1 flex w-full flex-row items-center justify-center space-x-4 space-y-0 py-2 md:-ml-0 md:mt-0 md:flex-col md:items-start md:space-x-0 md:space-y-1.5 md:py-0">--}}
+{{--                                        <button class="group pb-1.5" type="button">--}}
+{{--                                            <div--}}
+{{--                                                class="text-gray-900 opacity-50 group-hover:opacity-100 flex items-center space-x-1">--}}
+{{--                                                <div class="rounded-full p-1.5 hover:bg-[#f3f4f6]">--}}
+{{--                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"--}}
+{{--                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"--}}
+{{--                                                         class="mt-0.5 h-7 w-7 outline-none h-4 w-4 stroke-1">--}}
+{{--                                                        <path stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                                              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z">--}}
+{{--                                                        </path>--}}
+{{--                                                    </svg>--}}
+{{--                                                </div>--}}
+{{--                                                <span--}}
+{{--                                                    class="hidden text-transparent sm:block pt-0.5 text-sm font-medium group-hover:opacity-100">0</span>--}}
+{{--                                            </div>--}}
+{{--                                        </button><button--}}
+{{--                                            class="group flex items-center space-x-1 pb-1 pt-1 outline-none md:pt-0">--}}
+{{--                                            <div class="rounded-full p-1.5 hover:bg-[#f3f4f6]">--}}
+{{--                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"--}}
+{{--                                                     stroke-width="2" stroke="currentColor"--}}
+{{--                                                     class="h-7 w-7 stroke-1 text-gray-900 opacity-50 group-hover:opacity-100">--}}
+{{--                                                    <path stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                                          d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155">--}}
+{{--                                                    </path>--}}
+{{--                                                </svg>--}}
+{{--                                            </div>--}}
+{{--                                            <span--}}
+{{--                                                class="hidden text-[#6B7280] md:block pt-0.5 text-sm font-medium group-hover:opacity-100">0</span>--}}
+{{--                                        </button>--}}
+{{--                                        <div class="relative z-20 inline-block text-left md:z-0">--}}
+{{--                                            <button class="outline-none" id="headlessui-menu-button-2" type="button"--}}
+{{--                                                    aria-haspopup="true" aria-expanded="false">--}}
+{{--                                                <div class="h-fit w-fit rounded-full p-1.5 hover:bg-[#f3f4f6]">--}}
+{{--                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"--}}
+{{--                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"--}}
+{{--                                                         class="md:mt-0 mt-1.5 text-gray-900 opacity-50 hover:opacity-100 -ml-1 md:ml-0 h-7 w-7 stroke-1 text-gray-400">--}}
+{{--                                                        <path stroke-linecap="round" stroke-linejoin="round"--}}
+{{--                                                              d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z">--}}
+{{--                                                        </path>--}}
+{{--                                                    </svg>--}}
+{{--                                                </div>--}}
+{{--                                            </button>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
                     <!-- Right Side Content -->
                     <div class="flex flex-col space-x-0 pb-4 sm:space-x-2">
@@ -309,7 +309,7 @@
                                 ">
                                                             <div style="display: flex">
                                                                 <img alt="Author" height="30"
-                                                                     src="https://media.beehiiv.com/cdn-cgi/image/fit=scale-down,format=auto,onerror=redirect,quality=80/uploads/user/profile_picture/839a6674-f3e4-4cd4-bdc6-03fe8ea1ef4f/thumb_PicGrid_20230604_22254780.jpg"
+                                                                     src="{{asset($blog->user->image)}}"
                                                                      style="
                                       height: 30px;
                                       width: 30px;
@@ -336,7 +336,7 @@
                                     ">
                                                                     <span>{{$blog->user->name}}</span><br /><span
                                                                         class="text-gray-900"
-                                                                        style="opacity: 0.75">January 30, 2024</span>
+                                                                        style="opacity: 0.75">{{$blog->created_at->format('F j, Y')}}</span>
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -423,15 +423,17 @@
                                 Join the conversation
                             </h4>
                             <div>
-                                <form method="post" action="">
+                                <form method="post" action="{{route('comment.save')}}">
+                                    @csrf
                                     <div class="relative">
                                         <div
                                             class="overflow-hidden rounded-wt border border-gray-300 shadow-sm focus-within:border-gray-900 focus-within:ring-1 focus-within:ring-gray-900">
                                             <label for="comment" class="sr-only">Add your comment</label>
                                             <textarea rows="2"
-                                                      name="content" id="comment"
+                                                      name="comment" id="comment"
                                                       class="block w-full resize-none border-0 bg-transparent p-3 text-sm focus:ring-0"
                                                       placeholder="Add your comment..." required=""></textarea>
+                                            <input type="hidden" name="blog_id" value="{{$blog->id}}">
                                             <div class="py-2" aria-hidden="true">
                                                 <div class="py-px">
                                                     <div class="h-6"></div>
@@ -444,7 +446,7 @@
                                             </div>
                                             <div class="flex-shrink-0 pr-1">
                                                 @auth
-                                                    <button type="button"
+                                                    <button type="submit"
                                                             class="border font-medium rounded-md shadow-sm wt-button-font inline-flex items-center rounded-wt disabled:bg-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 justify-center px-2 py-1 text-sm border-gray-900 text-white bg-gray-900 focus:ring-wt-primary">
                                                         Submit
                                                     </button>
@@ -461,12 +463,68 @@
                                     </div>
                                 </form>
 
-                                <span class="opacity-75 wt-body-font text-gray-900 text-xs sm:text-sm font-regular"><a
-                                        href="{{route('login')}}"><span class="underline">Login</span></a>
+                                @auth
+
+                                @else
+                                    <span class="opacity-75 wt-body-font text-gray-900 text-xs sm:text-sm font-regular"><a
+                                            href="{{route('login')}}"><span class="underline">Login</span></a>
                                     or
                                     <a href="{{route('register')}}"><span class="underline">Register</span></a>
                                     to participate.</span>
+                                @endauth
+
+
                             </div>
+                            @php
+                                $comments = \App\Models\Comment::where('blog_id',$blog->id)->latest()->get();
+                            @endphp
+
+                            @foreach($comments as $row)
+                                <article class="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
+                                    <footer class="flex justify-between items-center mb-2">
+                                        <div class="flex items-center">
+                                            <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img
+                                                    class="mr-2 w-6 h-6 rounded-full"
+                                                    src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
+                                                    alt="Michael Gough">{{$row->user->name}}</p>
+                                            <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
+                                                                                                      title="February 8th, 2022">
+                                                    {{$row->created_at->diffForHumans()}}</time></p>
+                                        </div>
+                                        @if(auth()->check() && $row->user_id == auth()->user()->id)
+                                        <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1"
+                                                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                                                type="button">
+                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                                                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                                            </svg>
+                                            <span class="sr-only">Comment settings</span>
+                                        </button>
+                                        <!-- Dropdown menu -->
+
+
+                                        <div id="dropdownComment1"
+                                             class="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                            <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                                aria-labelledby="dropdownMenuIconHorizontalButton">
+                                                <li>
+                                                    <a href="#" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this comment?')) { document.getElementById('delete-comment-form-{{$row->id}}').submit(); }"
+                                                       class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>
+                                                    <form id="delete-comment-form-{{$row->id}}" action="{{route('comments.destroy',$row->id)}}" method="get" style="display: none;">
+                                                        @csrf
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                            @endif
+
+                                    </footer>
+                                    <p class="text-gray-500 dark:text-gray-400">{{$row->comment}}</p>
+                                </article>
+                            @endforeach
+
+
+
                         </div>
                     </div>
                     <div class="mx-auto w-full max-w-2xl px-4 pb-8 sm:px-0">

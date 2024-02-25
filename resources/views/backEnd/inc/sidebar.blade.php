@@ -4,8 +4,8 @@
         <div>
             <div class="brand-logo d-flex align-items-center justify-content-between">
                 <a href="{{route('admin.index')}}" class="text-nowrap logo-img">
-                    <img src="{{asset($website->website_logo)}}" class="dark-logo" width="180" alt="" />
-                    <img src="{{asset($website->website_logo)}}" class="light-logo"  width="180" alt="" />
+                    <img src="{{asset('admin.png')}}" class="dark-logo" width="180" alt="" />
+                    <img src="{{asset('admin.png')}}" class="light-logo"  width="180" alt="" />
                 </a>
                 <div class="cursor-pointer close-btn d-lg-none d-block sidebartoggler" id="sidebarCollapse">
                     <i class="ti ti-x fs-8 text-muted"></i>

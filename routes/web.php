@@ -41,6 +41,8 @@ Route::get('/page/{slug}', [HomeController::class,'page'])->name('home.page');
 Route::post('/contact/save', [HomeController::class,'contactMessage'])->name('contact.save');
 
 Route::post('comment/save',[CommentController::class,'store'])->name('comment.save');
+Route::get('/comments/delete/{id}', [CommentController::class,'destroy'])->name('comments.destroy');
+
 
 
 

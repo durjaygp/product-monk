@@ -14,8 +14,8 @@
                         <div class="mb-4 overflow-hidden rounded h-20 w-20 shadow-sm">
                             <figure class="aspect-square relative h-full overflow-hidden w-full"><img
                                     width="128" height="128"
-                                    src="https://media.beehiiv.com/cdn-cgi/image/fit=scale-down,format=auto,onerror=redirect,quality=80/uploads/publication/logo/51dbdc62-9076-48d9-a446-8938504125ba/PM_Lo.png"
-                                    alt="Product Monk" class="absolute inset-0 h-full w-full object-cover">
+                                    src="{{asset($website->website_logo)}}"
+                                    alt="{{$website->name}}" class="absolute inset-0 h-full w-full object-cover">
                             </figure>
                         </div>
                         <div class="space-y-1">
@@ -149,20 +149,30 @@
                                                 </div>
                                                 <div class="space-y-2">
                                                     <div class="flex flex-wrap gap-2">
-                                                          @php
-                                                              $categorys = json_decode($row->category_id,true);
-                                                          @endphp
-                                                        @foreach($categorys as $category)
-                                                            <div
-                                                                class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
+                                                        @php
+                                                            $categoryIds = json_decode($row->category_id, true);
+                                                        @endphp
+
+                                                        @if(is_array($categoryIds))
+                                                            @foreach($categoryIds as $categoryId)
                                                                 @php
-                                                                    $cat = \App\Models\Category::where('id',$category)->first();
+                                                                    $category = \App\Models\Category::find($categoryId);
                                                                 @endphp
-                                                                <span
-                                                                    class="text-white font-medium text-xs sm:text-sm font-regular "><span
-                                                                        class="text-xs">{{ $cat->name }}</span></span>
-                                                            </div>
-                                                        @endforeach
+
+                                                                @if($category)
+                                                                    <div class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
+                                                                    <span class="text-white font-medium text-xs sm:text-sm font-regular">
+                                                                        <span class="text-xs">{{ $category->name }}</span>
+                                                                    </span>
+                                                                    </div>
+                                                                @endif
+                                                            @endforeach
+                                                        @else
+                                                            {{-- Handle the case where $categoryIds is not an array --}}
+                                                            {{-- You might want to add appropriate error handling or display a message --}}
+                                                        @endif
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -195,50 +205,29 @@
                                                                            style="color: rgb(34, 34, 34);">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                            </svg></div><input type="text" name="q" id="q"
-                                                               class="text-regular w-full rounded-none border-b border-transparent bg-transparent py-2 pl-6 text-sm outline-none transition-all focus:border-transparent focus:opacity-100 text-gray-900 border-b-gray-900"
-                                                               placeholder="Search posts..." value="">
+                                            </svg></div>
+                                        <form action="{{route('search.blog')}}" method="get">
+                                            <input type="text" name="search" id="q"
+                                                   class="text-regular w-full rounded-none border-b border-transparent bg-transparent
+                                                    py-2 pl-6 text-sm outline-none transition-all focus:border-transparent focus:opacity-100 text-gray-900 border-b-gray-900"
+                                                   placeholder="Search posts..." >
+                                        </form>
+
+
+
                                     </div>
                                 </div>
                                 <div class="mb-2 flex flex-wrap gap-2">
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">Product
-                                        Strategy
-                                    </button>
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">Product
-                                        Case Study
-                                    </button>
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">Product
-                                        Management Fundamentals
-                                    </button>
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">Product
-                                        Management Tools
-                                    </button>
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">GTM
-                                    </button>
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">Product
-                                        Design
-                                    </button>
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">Product
-                                        Technology
-                                    </button>
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">Product
-                                        Analytics
-                                    </button>
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">Product
-                                        Marketing
-                                    </button>
-                                    <button type="button"
-                                            class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">MVP/MLP
-                                    </button>
+                                    @php
+                                        $cate = \App\Models\Category::latest()->whereStatus(1)->get();
+                                    @endphp
+                                    @foreach($cate as $row)
+                                        <a href="{{route('home.category',$row->slug)}}"
+                                           class="rounded-md border-gray-900 text-gray-900 bg-transparent border py-1 px-2 text-xs">{{$row->name}}
+                                        </a>
+                                    @endforeach
+
+
                                 </div>
                             </div>
                             <!-- Search Post End -->
@@ -247,979 +236,89 @@
 
                             <!-- Post List Start -->
                             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
+                                @php $count = 0; @endphp
+                                @foreach($nextBlog as $next)
+                                    {{-- Skip the first 2 blog posts --}}
+                                    @if($count >= 3)
+                                        <div class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
+                                            <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
+                                               href="{{route('home.blog',$next->slug)}}">
+                                                <div class="w-full">
+                                                    <div class="w-full overflow-hidden rounded-lg">
+                                                        <figure
+                                                            class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
+                                                            <img loading="eager" width="800" height="421"
+                                                                 src="{{asset($next->image)}}"
+                                                                 alt="{{$next->name}}"
+                                                                 class="absolute inset-0 h-full w-full object-cover">
+                                                        </figure>
                                                     </div>
                                                 </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
+                                                <div class="flex w-full flex-col justify-between space-y-6 p-4">
+                                                    <div>
+                                                        <div class="flex justify-between space-x-4">
+                                                            <div class="space-y-1">
+                                                                <h2
+                                                                    class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
+                                                                    {{$next->name}}
+                                                                </h2>
+                                                                <p
+                                                                    class="break-words line-clamp-2 text-sm font-regular text-gray-900">
+                                                                    {{$next->description}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="pt-6">
+                                                            <p
+                                                                class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
+                                                                <span class="text-xs font-semibold">{{$next->user->name}}
                                                                 </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
+                                                                <span class="text-xs">{{$next->created_at->diffForHumans()}}</span>
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
+                                                    <div class="space-y-2">
+                                                        <div class="flex flex-wrap gap-2">
+                                                            @php
+                                                                $categoryIds = json_decode($next->category_id, true);
+                                                            @endphp
+
+                                                            @if(is_array($categoryIds))
+                                                                @foreach($categoryIds as $categoryId)
+                                                                    @php
+                                                                        $category = \App\Models\Category::find($categoryId);
+                                                                    @endphp
+
+                                                                    @if($category)
+                                                                        <div class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
+                                                                    <span class="text-white font-medium text-xs sm:text-sm font-regular">
+                                                                        <span class="text-xs">{{ $category->name }}</span>
+                                                                    </span>
+                                                                        </div>
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+                                                                {{-- Handle the case where $categoryIds is not an array --}}
+                                                                {{-- You might want to add appropriate error handling or display a message --}}
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
-                                    </a>
-                                </div>
+                                    @endif
+                                    @php $count++; @endphp
+                                @endforeach
 
 
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
 
 
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div
-                                    class="group h-full overflow-hidden transition-all shadow-none hover:shadow-none rounded-lg bg-white border-white">
-                                    <a class="group flex h-full w-full border transition-all group-hover:brightness-110 rounded-lg flex-col bg-white border-white"
-                                       href="#">
-                                        <div class="w-full">
-                                            <div class="w-full overflow-hidden rounded-lg">
-                                                <figure
-                                                    class="aspect-[1.9/1] relative h-full overflow-hidden w-full">
-                                                    <img loading="eager" width="800" height="421"
-                                                         src="https://media.beehiiv.com/cdn-cgi/image/format=auto,width=800,height=421,fit=scale-down,onerror=redirect/uploads/asset/file/ce7052bc-86a0-4ddd-9e67-c0018f65bb82/image.png"
-                                                         alt="Tumblr: Why 150+ Millions Abandoned it?"
-                                                         class="absolute inset-0 h-full w-full object-cover">
-                                                </figure>
-                                            </div>
-                                        </div>
-                                        <div class="flex w-full flex-col justify-between space-y-6 p-4">
-                                            <div>
-                                                <div class="flex justify-between space-x-4">
-                                                    <div class="space-y-1">
-                                                        <h2
-                                                            class="break-words line-clamp-4 text-lg sm:text-xl font-bold text-gray-900">
-                                                            Tumblr: Why 150+
-                                                            Millions Abandoned it?</h2>
-                                                        <p
-                                                            class="break-words line-clamp-2 text-sm font-regular text-gray-900">
-                                                            Tumblr no longer the
-                                                            go-to social platform for youngsters :(</p>
-                                                    </div>
-                                                </div>
-                                                <div class="pt-6">
-                                                    <p
-                                                        class="flex flex-col space-y-1 no-underline opacity-75 text-sm font-regular text-gray-900">
-                                                                <span class="text-xs font-semibold">Aneesha
-                                                                    S
-                                                                </span>
-                                                        <span class="text-xs">a day ago</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="space-y-2">
-                                                <div class="flex flex-wrap gap-2">
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900 text-white">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Case Study</span></span>
-                                                    </div>
-                                                    <div
-                                                        class="flex w-fit items-center space-x-1 rounded px-2 pb-0.5 bg-gray-900">
-                                                                <span
-                                                                    class="text-xs font-medium sm:text-sm font-regular text-white"><span
-                                                                        class="text-xs">Product Management
-                                                                        Fundamentals</span></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="flex w-full justify-center">
-                                    <button
-                                        class="w-full items-center justify-center border transition-all h-full bg-white border-white text-gray-900">
-                                                <span class="text-lg sm:text-xl font-regular text-gray-900">Load
-                                                    More</span>
-                                    </button>
-                                </div>
+{{--                                <div class="flex w-full justify-center">--}}
+{{--                                    <button--}}
+{{--                                        class="w-full items-center justify-center border transition-all h-full bg-white border-white text-gray-900">--}}
+{{--                                                <span class="text-lg sm:text-xl font-regular text-gray-900">Load--}}
+{{--                                                    More</span>--}}
+{{--                                    </button>--}}
+{{--                                </div>--}}
                             </div>
                             <!-- Post List End -->
 

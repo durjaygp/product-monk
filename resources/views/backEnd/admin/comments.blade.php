@@ -57,14 +57,13 @@
                                         <!-- start row -->
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$row->full_name}}</td>
-                                            <td>{{$row->email}}</td>
+                                            <td>{{$row->user->name}}</td>
+                                            <td>{{$row->user->email}}</td>
+
+
                                             <td>{{$row->comment}}</td>
                                             <td>
                                                 <div class="action-btn">
-                                                    <a href="{{route('home.blog',$row->blog->slug)}}" class="btn btn-sm btn-primary" target="_blank">
-                                                        <i class="ti ti-eye-check fs-5"></i> Post Check
-                                                    </a>
                                                     <a href="#"
                                                        onclick="event.preventDefault();
                                                            if (confirm('Are you sure you want to delete?'))

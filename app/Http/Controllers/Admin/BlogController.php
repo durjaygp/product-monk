@@ -133,14 +133,14 @@ class BlogController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-
+        $categoryIdsJson = json_encode($request->category_id);
         // If validation passes, update the student
         $blog = Blog::find($request->id);
         $blog->name = $request->name;
         $blog->slug = Str::slug($request->name, '-');
         $blog->user_id = auth()->user()->id;
         $blog->description = $request->description;
-        //$blog->category_id = $request->category_id; // Store category IDs as JSON
+        $blog->category_id = $categoryIdsJson; // Store category IDs as JSON
        // $blog->category_id = json_encode($request->category_id); // Store category IDs as JSON
 
         $blog->main_content = $request->main_content;
